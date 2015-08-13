@@ -35,11 +35,24 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="horizontal">
-
-
+        <Button
+            android:id="@+id/btn_open_music"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="打开音乐"
+            />
+        <Button
+            android:id="@+id/btn_open_lrc"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="打开歌词"
+            />
         <ImageButton
             android:id="@+id/ib_toggle"
-            android:layout_width="120dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:src="@android:drawable/ic_media_play" />
 

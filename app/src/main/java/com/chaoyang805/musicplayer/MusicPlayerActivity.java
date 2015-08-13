@@ -10,9 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,22 +21,21 @@ import com.chaoyang805.musicplayer.manager.MediaManager;
 import com.chaoyang805.musicplayer.utils.FileUtils;
 import com.chaoyang805.musicplayer.utils.LrcParser;
 
-import java.util.TreeMap;
-
 public class MusicPlayerActivity extends AppCompatActivity implements View.OnClickListener, MediaPlayer.OnCompletionListener {
 
     private static final int REQUEST_OPEN_MUSIC = 0x01;
     private static final int REQUEST_OPEN_LRC = 0x02;
     private ImageButton mIbToggle;
+    private Button mBtnOpenMusic,mBtnOpenLrc;
     private TextView mTvTitle, mTvArtist, mLrcView;
     private LrcParser mParser;
     private LrcFileInfo mLrcFileInfo;
     private Uri mMusicUri, mLrcUri;
     private LrcAsyncTask mTask;
-    private long mCurPosition = 0;
     private boolean mMediaMgrWellPrepared = false;
     public static boolean mIsPlaying;
     NotificationManager mNotificationManager;
+    private boolean mIsBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,40 +51,44 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
         mIbToggle = (ImageButton) findViewById(R.id.ib_toggle);
         mTvTitle = (TextView) findViewById(R.id.tv_media_info_title);
         mTvArtist = (TextView) findViewById(R.id.tv_media_info_artist);
+        mBtnOpenMusic = (Button) findViewById(R.id.btn_open_music);
+        mBtnOpenLrc = (Button) findViewById(R.id.btn_open_lrc);
+        mBtnOpenMusic.setOnClickListener(this);
+        mBtnOpenLrc.setOnClickListener(this);
         mIbToggle.setOnClickListener(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_music_player, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_music_player, menu);
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_open_music:
-                if (mIsPlaying) {
-                    mIsPlaying = false;
-                    mMediaMgrWellPrepared = false;
-                    MediaManager.pause();
-                    mIbToggle.setImageResource(android.R.drawable.ic_media_play);
-                }
-                openMusicFile();
-                break;
-            case R.id.action_open_lrc:
-                if (mIsPlaying) {
-                    mIsPlaying = false;
-                    mMediaMgrWellPrepared = false;
-                    MediaManager.pause();
-                    mIbToggle.setImageResource(android.R.drawable.ic_media_play);
-                }
-                openLrc();
-                break;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        switch (id) {
+//            case R.id.action_open_music:
+//                if (mIsPlaying) {
+//                    mIsPlaying = false;
+//                    mMediaMgrWellPrepared = false;
+//                    MediaManager.pause();
+//                    mIbToggle.setImageResource(android.R.drawable.ic_media_play);
+//                }
+//                openMusicFile();
+//                break;
+//            case R.id.action_open_lrc:
+//                if (mIsPlaying) {
+//                    mIsPlaying = false;
+//                    mMediaMgrWellPrepared = false;
+//                    MediaManager.pause();
+//                    mIbToggle.setImageResource(android.R.drawable.ic_media_play);
+//                }
+//                openLrc();
+//                break;
+//        }
+//        return true;
+//    }
 
     private void openMusicFile() {
         Intent intent = new Intent();
@@ -181,8 +183,31 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ib_toggle) {
-            playOrPauseMusic();
-            Log.d("MusicPlayerActivity", "playOrPauseMusic");
+
+        }
+        switch (v.getId()) {
+            case R.id.ib_toggle:
+                playOrPauseMusic();
+                Log.d("MusicPlayerActivity", "playOrPauseMusic");
+                break;
+            case R.id.btn_open_music:
+                if (mIsPlaying) {
+                    mIsPlaying = false;
+                    mMediaMgrWellPrepared = false;
+                    MediaManager.pause();
+                    mIbToggle.setImageResource(android.R.drawable.ic_media_play);
+                }
+                openMusicFile();
+                break;
+            case R.id.btn_open_lrc:
+                if (mIsPlaying) {
+                    mIsPlaying = false;
+                    mMediaMgrWellPrepared = false;
+                    MediaManager.pause();
+                    mIbToggle.setImageResource(android.R.drawable.ic_media_play);
+                }
+                openLrc();
+                break;
         }
     }
 
@@ -194,22 +219,19 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(this, R.string.please_choose_music_first, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!MediaManager.isPlaying()) {
+        if (!mIsPlaying) {
 
             MediaManager.play();
             mIsPlaying = true;
             mIbToggle.setImageResource(android.R.drawable.ic_media_pause);
             if (mLrcFileInfo != null) {
-                TreeMap<Long, String> lrcTreeMap = mLrcFileInfo.getLrcTreeMap();
-                mTask = new LrcAsyncTask(mLrcView, mCurPosition);
-                mTask.execute(lrcTreeMap);
+                mTask = new LrcAsyncTask(mLrcView);
+                mTask.execute(mLrcFileInfo);
             }
-        } else if (MediaManager.isPlaying()) {
+        } else if (mIsPlaying) {
             MediaManager.pause();
             mIsPlaying = false;
             mIbToggle.setImageResource(android.R.drawable.ic_media_play);
-            mCurPosition = MediaManager.getCurrentPosition();
-            Log.d("MusicPlayer", "CurrentPosition:" + mCurPosition);
         }
     }
 
@@ -241,6 +263,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
         }
         long secondPress = System.currentTimeMillis();
         if (secondPress - firstPress < 3000) {
+            mIsBackPressed = true;
             finish();
         } else {
             Toast.makeText(this, R.string.exit_will_stop_music, Toast.LENGTH_SHORT).show();
@@ -251,11 +274,18 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onPause() {
         super.onPause();
-        if (mIsPlaying) {
+        if (mIsPlaying && !mIsBackPressed) {
             showNotification();
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mIsPlaying) {
+            mNotificationManager.cancelAll();
+        }
+    }
 
     private void showNotification() {
         android.support.v4.app.NotificationCompat.Builder mBuilder =

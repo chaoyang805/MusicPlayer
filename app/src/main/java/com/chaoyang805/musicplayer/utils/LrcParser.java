@@ -24,7 +24,7 @@ public class LrcParser {
     /**
      * 用来保存歌词信息的TreeMap
      */
-    private TreeMap<Long, String> mTreeMap;
+    private TreeMap<Integer, String> mTreeMap;
     /**
      * 正则表达式
      */
@@ -76,7 +76,7 @@ public class LrcParser {
                     }
                     while (lrcMatcher.find()) {        //同一句歌词可能对应多个出现时间
                         String timeStr = lrcMatcher.group();
-                        long lyricsStartTime = formatTime(timeStr); //歌词开始出现的时间
+                        int lyricsStartTime = formatTime(timeStr); //歌词开始出现的时间
                         mTreeMap.put(lyricsStartTime, lyricsContent);
                     }
                 }
@@ -114,7 +114,7 @@ public class LrcParser {
      * @return 返回对应歌词开始出现的时间
      * [01:21.23]
      */
-    private long formatTime(String timeStr) {
+    private int formatTime(String timeStr) {
         String minStr = timeStr.substring(1, 3);
         String secStr = timeStr.substring(4, 6);
         String millisec = "0";
@@ -124,7 +124,7 @@ public class LrcParser {
         int minutes = Integer.parseInt(minStr);
         int second = Integer.parseInt(secStr);
         int millis = Integer.parseInt(millisec);
-        return minutes * 60 * 1000 + second * 1000 + millis * 10;
+        return minutes * 60 + second;
     }
 
 }

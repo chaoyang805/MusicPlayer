@@ -1,5 +1,7 @@
 package com.chaoyang805.musicplayer.bean;
 
+import android.util.Log;
+
 import java.util.TreeMap;
 
 /**
@@ -12,7 +14,7 @@ public class LrcFileInfo {
     private String mArtist;
     private String mAlbum;
 
-    private TreeMap<Long, String> mTreeMap;
+    private TreeMap<Integer, String> mTreeMap;
 
     public LrcFileInfo() {
         mTreeMap = new TreeMap<>();
@@ -48,11 +50,21 @@ public class LrcFileInfo {
         return mAlbum;
     }
 
-    public void setLrcTreeMap(TreeMap<Long, String> lrcTreeMap) {
+    public void setLrcTreeMap(TreeMap<Integer, String> lrcTreeMap) {
         this.mTreeMap = lrcTreeMap;
     }
 
-    public TreeMap<Long, String> getLrcTreeMap() {
+    public TreeMap<Integer, String> getLrcTreeMap() {
         return mTreeMap;
+    }
+
+    public boolean contains(int time) {
+        return mTreeMap.containsKey(time);
+    }
+
+    public String getLrcByTime(int time) {
+        String lrc = mTreeMap.get(time);
+        Log.d("LrcFileInfo", lrc);
+        return lrc;
     }
 }

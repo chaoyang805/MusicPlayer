@@ -89,11 +89,5 @@ public class MediaManager {
         return mMediaPlayer.getCurrentPosition();
     }
 
-    /**
-     * 获取播放状态
-     * @return
-     */
-    public static boolean isPlaying() {
-        return mMediaPlayer.isPlaying();
-    }
+
 }
