@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MusicPlayerActivity">
+
+    <TextView
+        android:id="@+id/lrc_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:gravity="center"
+        android:layout_centerInParent="true" />
+    <TextView
+        android:id="@+id/tv_media_info_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/lrc_view"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:text="artist"
+        />
+    <TextView
+        android:id="@+id/tv_media_info_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_media_info_artist"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:text="title"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/ib_toggle"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:src="@android:drawable/ic_media_play" />
+
+    </LinearLayout>
+
+</RelativeLayout>
