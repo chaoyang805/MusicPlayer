@@ -112,18 +112,12 @@ public class LrcParser {
      *
      * @param timeStr 包含歌词时间信息的字符串
      * @return 返回对应歌词开始出现的时间
-     * [01:21.23]
      */
     private int formatTime(String timeStr) {
         String minStr = timeStr.substring(1, 3);
         String secStr = timeStr.substring(4, 6);
-        String millisec = "0";
-        if (timeStr.length() >= 10) {
-            millisec = timeStr.substring(7, 9);
-        }
         int minutes = Integer.parseInt(minStr);
         int second = Integer.parseInt(secStr);
-        int millis = Integer.parseInt(millisec);
         return minutes * 60 + second;
     }
 

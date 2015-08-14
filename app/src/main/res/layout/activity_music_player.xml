@@ -9,6 +9,7 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:gravity="center"
+        android:textSize="16sp"
         android:layout_centerInParent="true" />
     <TextView
         android:id="@+id/tv_media_info_artist"
@@ -40,14 +41,14 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:text="打开音乐"
+            android:text="@string/open_music_file"
             />
         <Button
             android:id="@+id/btn_open_lrc"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:text="打开歌词"
+            android:text="@string/open_lrc_file"
             />
         <ImageButton
             android:id="@+id/ib_toggle"

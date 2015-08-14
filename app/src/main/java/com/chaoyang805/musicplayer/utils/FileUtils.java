@@ -13,7 +13,7 @@ import info.monitorenter.cpdetector.io.JChardetFacade;
 
 /**
  * Created by chaoyang805 on 2015/8/10.
- * 通过uri来解析文件在sd卡的路径.
+ * 文件操作的工具类
  */
 public class FileUtils {
     /**
@@ -44,7 +44,7 @@ public class FileUtils {
     }
 
     /**
-     * 获取文件的编码方式，防止乱码
+     * 通过第三方库获取文件的编码方式，防止乱码
      * @param filePath
      * @return
      */

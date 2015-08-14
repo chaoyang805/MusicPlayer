@@ -7,5 +7,8 @@
     <string name="please_choose_music_first">请先选择一首音乐</string>
     <string name="thanks_for_listening">谢谢欣赏</string>
     <string name="music_is_nowplaying">正在播放音乐</string>
+    <string name="open_music_file">打开音乐</string>
+    <string name="open_lrc_file">打开歌词</string>
+
 
 </resources>

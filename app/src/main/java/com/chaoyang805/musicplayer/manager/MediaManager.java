@@ -85,6 +85,10 @@ public class MediaManager {
         }
     }
 
+    /**
+     * 获取当前音乐播放的进度
+     * @return
+     */
     public static int getCurrentPosition(){
         return mMediaPlayer.getCurrentPosition();
     }
