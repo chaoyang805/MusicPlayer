@@ -17,7 +17,7 @@ public class MediaManager {
     private static MediaPlayer mMediaPlayer;
 
     /**
-     * 准备MediaPlayer的静态方法
+     * 准备MediaPlayer的静态方 法
      *
      * @param context
      * @param uri                  音乐文件的uri
