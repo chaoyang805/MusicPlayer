@@ -20,6 +20,7 @@ import com.chaoyang805.musicplayer.bean.LrcFileInfo;
 import com.chaoyang805.musicplayer.manager.MediaManager;
 import com.chaoyang805.musicplayer.utils.FileUtils;
 import com.chaoyang805.musicplayer.utils.LrcParser;
+import com.chaoyang805.musicplayer.view.LrcView;
 
 /**
  * 播放音乐和歌词同步显示的主Activity
@@ -48,7 +49,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
     /**
      *
      */
-    private TextView mTvTitle, mTvArtist, mLrcView;
+    private TextView mTvTitle, mTvArtist;
+    private LrcView mLrcView;
     /**
      * 歌词解析类的对象,用来解析歌词文件.
      */
@@ -96,7 +98,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
      * 并设置事件侦听器
      */
     private void initViews() {
-        mLrcView = (TextView) findViewById(R.id.lrc_view);
+        mLrcView = (LrcView) findViewById(R.id.lrc_view);
         mIbToggle = (ImageButton) findViewById(R.id.ib_toggle);
         mTvTitle = (TextView) findViewById(R.id.tv_media_info_title);
         mTvArtist = (TextView) findViewById(R.id.tv_media_info_artist);
@@ -260,8 +262,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
             mIsPlaying = true;
             mIbToggle.setImageResource(android.R.drawable.ic_media_pause);
             if (mLrcFileInfo != null) {
-                mTask = new LrcAsyncTask(mLrcView);
-                mTask.execute(mLrcFileInfo);
+                mTask = new LrcAsyncTask(mLrcView,mLrcFileInfo);
+                mTask.execute();
             }
             //暂停音乐
         } else if (mIsPlaying) {
@@ -277,10 +279,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements View.OnCli
      */
     @Override
     public void onCompletion(MediaPlayer mp) {
+        mIsPlaying = false;
         mLrcView.setText(R.string.thanks_for_listening);
         mIbToggle.setImageResource(android.R.drawable.ic_media_play);
         MediaManager.release();
-        mIsPlaying = false;
         mMediaMgrWellPrepared = false;
     }
 

@@ -18,12 +18,13 @@ public class MediaManager {
 
     /**
      * 准备MediaPlayer的静态方法
+     *
      * @param context
-     * @param uri 音乐文件的uri
+     * @param uri                  音乐文件的uri
      * @param onCompletionListener 音乐播放完毕的回调
      */
-    public static void prepare(Context context,Uri uri,
-                                 MediaPlayer.OnCompletionListener onCompletionListener) {
+    public static void prepare(Context context, Uri uri,
+                               MediaPlayer.OnCompletionListener onCompletionListener) {
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -39,7 +40,7 @@ public class MediaManager {
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setOnCompletionListener(onCompletionListener);
         try {
-            mMediaPlayer.setDataSource(context,uri);
+            mMediaPlayer.setDataSource(context, uri);
             mMediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,9 +88,10 @@ public class MediaManager {
 
     /**
      * 获取当前音乐播放的进度
+     *
      * @return
      */
-    public static int getCurrentPosition(){
+    public static int getCurrentPosition() {
         return mMediaPlayer.getCurrentPosition();
     }
 
